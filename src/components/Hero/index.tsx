@@ -5,11 +5,20 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2";
 import Image from "next/image";
 import Audit from "../../assets/Audit-pana.svg";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "../../styles/theme";
 
-export const Hero = () => {
+type Props ={
+  open:boolean,
+  setOpen:any
+}
+
+export const Hero = ({open,setOpen}:Props) => {
+  const handleOpen = () => setOpen(true);
   return (
     <>
-      <Container maxWidth="md">
+    <ThemeProvider theme={theme}>
+    <Container maxWidth="md">
         <Box sx={{ width: "80%",
        }}>
           <Grid
@@ -35,7 +44,9 @@ export const Hero = () => {
               >
                 <Typography 
                 variant="h4" gutterBottom>
+                  <strong>
                   Agenda Loopis
+                  </strong>
                 </Typography>
                 <Typography
                   sx={{
@@ -48,6 +59,7 @@ export const Hero = () => {
                   programações?
                 </Typography>
                 <Button
+                  onClick={handleOpen}
                   color="primary"
                   fullWidth
                   sx={{
@@ -81,6 +93,7 @@ export const Hero = () => {
           </Grid>
         </Box>
       </Container>
+    </ThemeProvider>
     </>
   );
 };
