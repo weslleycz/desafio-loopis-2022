@@ -1,0 +1,66 @@
+@import "./theme/";
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 1080px) {
+    html {
+        font-size: 93.75%;
+    }
+}
+
+html,
+body {
+    ::-webkit-scrollbar-track {
+        background-color: rgb(255, 255, 255);
+    }
+    ::-webkit-scrollbar {
+        width: 6px;
+        background-color: rgb(255, 255, 255);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: $yellow;
+        border-radius: 10%;
+    }
+}
+
+img {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@media (max-width: 720px) {
+    html {
+        font-size: 87.5%;
+    }
+}
+
+body {
+    background: $dark-500;
+    color: $text-dark;
+    -webkit-font-smoothing: antialiased;
+}
+
+body,
+input,
+textarea,
+select,
+button {
+    font-weight: 400;
+    font-size: 1rem;
+    font-family: 'Rufina', serif;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
