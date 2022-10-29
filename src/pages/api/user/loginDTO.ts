@@ -6,6 +6,6 @@ export class loginDTO {
   email!: string;
 
   @IsNotEmpty()
-  @MinLength(14)
+  @MinLength(9)
   password!: string;
 }
