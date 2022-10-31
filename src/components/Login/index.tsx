@@ -241,7 +241,7 @@ export const Login = ({ open, setOpen }: Props) => {
                         onClick={()=>handleLogin()}
                         sx={{
                             marginBlockEnd: "3%",
-                            borderRadius: "75px",
+                            borderRadius: "25%",
                         }}
                         variant="text"
                     >

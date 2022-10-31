@@ -1,12 +1,22 @@
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { Box, Button, Card, CardContent } from "@mui/material";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Container from '@mui/material/Container';
-import Chip from '@mui/material/Chip';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, List, ListItem, Menu, MenuItem, Typography } from "@mui/material";
+import Container from "@mui/material/Container";
+import Fade from "@mui/material/Fade";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import React from "react";
+import { BtnAddTask } from "../BtnAddTask";
 
 export const Tasks = () => {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
         <>
             <Box
@@ -22,74 +32,106 @@ export const Tasks = () => {
                     sx={{
                         padding: "1.5%",
                     }}
-                >
-                </Box>
+                ></Box>
                 <Container maxWidth="xl">
-            
-                <Box>
-                    <Card
-                        sx={{
-                            width: "25%",
-                            borderRadius: "10px",
-                        }}
+                    <Grid
+                        container
+                        rowSpacing={1}
+                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                     >
-                        <CardContent>
-                            <Stack direction="row" spacing={9}>
-                                <Typography
-                                    variant="button"
-                                    display="block"
-                                    gutterBottom
-                                >
-                                    <strong>Fazer o almoço:</strong>
-                                </Typography>
-                                <MoreHorizIcon
-                                    sx={{
-                                        color: "#cfcccc",
-                                    }}
-                                />
-                            </Stack>
-                            <Typography
+                        <Grid item xs={4}>
+                            <Box
                                 sx={{
-                                    textAlign: "left",
+                                    width: "100%",
+                                    maxWidth: 360,
+                                    bgcolor: "background.paper",
                                 }}
-                                variant="subtitle1"
-                                gutterBottom
                             >
-                                Fazer uma lasanha de frango com molho branco, um
-                                bife a parmegiana, e um macarrão carbonara...
-                            </Typography>
-                            <Box sx={{
-                                textAlign: "left",
-                                justifyContent:"left"
-                            }}>
-                            <Chip
-                            color="info"
-                            size="medium"
-                            sx={{
-                                color:"#ffff"
-                            }}
-                             label="🕗 Mar 09:30" />
+                                <List>
+                                    <IconButton
+                                        aria-controls={
+                                            open ? "fade-menu" : undefined
+                                        }
+                                        aria-haspopup="true"
+                                        aria-expanded={
+                                            open ? "true" : undefined
+                                        }
+                                        onClick={handleClick}
+                                        sx={{
+                                            marginLeft: "80%",
+                                        }}
+                                    >
+                                        <MoreVertIcon />
+                                    </IconButton>
+                                    <Menu
+                                        id="fade-menu"
+                                        MenuListProps={{
+                                            "aria-labelledby": "fade-button",
+                                        }}
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        TransitionComponent={Fade}
+                                    >
+                                        <MenuItem onClick={handleClose}>
+                                            Editar
+                                        </MenuItem>
+                                        <MenuItem onClick={handleClose}>
+                                            Excluir
+                                        </MenuItem>
+                                    </Menu>
+                                    <ListItem disablePadding>
+                                        <Box
+                                            sx={{
+                                                margin: "0 auto",
+                                            }}
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    p: "3",
+                                                }}
+                                                variant="h6"
+                                                gutterBottom
+                                            >
+                                                <strong>Fazer o almoço:</strong>
+                                            </Typography>
+                                        </Box>
+                                    </ListItem>
+                                    <ListItem disablePadding>
+                                        <Box
+                                            sx={{
+                                                margin: "0 auto",
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="subtitle1"
+                                                gutterBottom
+                                                sx={{
+                                                    padding: "8%",
+                                                }}
+                                            >
+                                                Fazer uma lasanha de frango com
+                                                molho branco, um bife a
+                                                parmegiana, e um macarrão
+                                                carbonara...
+                                            </Typography>
+                                            <Typography
+                                                variant="subtitle1"
+                                                gutterBottom
+                                                sx={{
+                                                    marginLeft: "5%",
+                                                }}
+                                            >
+                                                🕗 3:30
+                                            </Typography>
+                                        </Box>
+                                    </ListItem>
+                                </List>
                             </Box>
-                        </CardContent>
-                    </Card>
-
-                    
-                </Box>
-
+                        </Grid>
+                    </Grid>
                 </Container>
-            
-                <footer
-                    style={{
-                        bottom: 70,
-                        position: "fixed",
-                        marginRight: "10%",
-                        width: "83.5%",
-                    }}
-                >
-                    <Button variant="contained">
-                        Insira uma nova atividade do dia
-                    </Button>
-                </footer>
+                <BtnAddTask />
             </Box>
         </>
     );
