@@ -34,45 +34,11 @@ export const SideMenu = () => {
         }
     };
 
+    const [select,setSelect]=useState(0)
+
     return (
         <>
-            {/* <Box
-                sx={{
-                    margin: "0 auto",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    display: "flex",
-                    p: "4",
-                    padding: "7%",
-                    marginTop: "3%",
-                    textAlign: "center",
-                    marginLeft: "5%",
-                    cursor: "pointer",
-                }}
-            >
-                <Card
-                    sx={{
-                        minWidth: 126,
-                        padding: "1%",
-                        background: "#F8FBFF",
-                        borderRadius: "30px",
-                        ":hover": {
-                            filter: "brightness(90%)",
-                        },
-                    }}
-                >
-                    <CardContent>
-                        <Typography variant="h6" gutterBottom>
-                            04/11
-                        </Typography>
-                        <Typography variant="subtitle2" gutterBottom>
-                            2022
-                        </Typography>
-                        <Chip sx={{ cursor: "pointer" }} label="Hoje" />
-                    </CardContent>
-                </Card>
-            </Box>*/}
-            {days.map((d) => {
+            {days.map((d,index) => {
                 return (
                     <>
                         <Box
@@ -94,7 +60,7 @@ export const SideMenu = () => {
                                 sx={{
                                     minWidth: 126,
                                     padding: "1%",
-                                    background: "#E7E7E7",
+                                    background: index === select ?  "#F8FBFF" : "#E7E7E7",
                                     borderRadius: "30px",
                                     ":hover": {
                                         filter: "brightness(90%)",
@@ -121,7 +87,7 @@ export const SideMenu = () => {
                     </>
                 );
             })}
-            <AddDay />
+            <AddDay getDays={getDays} />
             <Box
                 sx={{
                     marginTop: "2%",
