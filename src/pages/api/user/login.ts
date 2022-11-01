@@ -25,7 +25,9 @@ class UserLogin {
                 },
             });
             if (!data) {
-                return res.status(400).json({ message: "use not failed" });
+                return res
+                    .status(400)
+                    .json({ message: "use not failed", has_error: true });
             }
             if (await compare(password, data.password)) {
                 if (process.env.TOKEN_KAY) {

@@ -208,6 +208,8 @@ export const Login = ({ open, setOpen }: Props) => {
                         label="Confirmar senha"
                         fullWidth
                         color="info"
+                        multiline
+                        rows={4}
                         type="password"
                         autoComplete="current-password"
                         sx={{

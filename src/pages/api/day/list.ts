@@ -32,6 +32,9 @@ class DayList{
                 const data = await prismaClient.day.findMany({
                     where:{
                         userId
+                    },
+                    include:{
+                        tasks:true
                     }
                 })
                 if (data.length <= 3) {

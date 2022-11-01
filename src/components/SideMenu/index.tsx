@@ -4,45 +4,63 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { api } from "../../utils/apí";
+import { useEffect } from "react";
 import { AddDay } from "../AddDay";
 
 type Day = {
     id: string;
     data: string;
     userId: string;
+    tasks: TaskDTO[];
 };
 
-export const SideMenu = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-    const [days, setDays] = useState<Day[]>([]);
+type SelectDay = {
+    id: string;
+    index: number;
+    tasks: TaskDTO[];
+};
+type TaskDTO = {
+    id: string;
+    dayId: string;
+    name: string;
+    hour: string;
+    description: string;
+};
 
+type PropsSideMenu = {
+    setListTasks: any;
+    getDays: any;
+    days: any;
+    select: number;
+    setSelect: any;
+};
+
+export const SideMenu = ({
+    setListTasks,
+    getDays,
+    days,
+    select,
+    setSelect,
+}: PropsSideMenu) => {
     useEffect(() => {
         getDays();
     }, []);
 
-    const getDays = async () => {
-        if (cookies.token != undefined) {
-            const data = await api.get("/day/list", {
-                headers: {
-                    authorization: cookies.token,
-                },
-            });
-            setDays(data.data.data);
-        }
+    const selectDay = ({ id, index, tasks }: SelectDay) => {
+        setListTasks(tasks);
+        setSelect(index);
     };
-
-    const [select,setSelect]=useState(0)
 
     return (
         <>
-            {days.map((d,index) => {
+            {days.map((d: any, index: any) => {
                 return (
                     <>
                         <Box
                             key={d.id}
+                            onClick={() =>
+                                selectDay({ id: d.id, index, tasks: d.tasks })
+                            }
                             sx={{
                                 margin: "0 auto",
                                 justifyContent: "center",
@@ -60,7 +78,10 @@ export const SideMenu = () => {
                                 sx={{
                                     minWidth: 126,
                                     padding: "1%",
-                                    background: index === select ?  "#F8FBFF" : "#E7E7E7",
+                                    background:
+                                        index === select
+                                            ? "#ffffff"
+                                            : "#E7E7E7",
                                     borderRadius: "30px",
                                     ":hover": {
                                         filter: "brightness(90%)",
