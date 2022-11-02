@@ -12,7 +12,6 @@ class TaskCreate {
     ) {
         try {
             const {dayID,description,hour,name} = body;
-            console.log(body);
             const task = await prismaClient.task.create({
                 data:{
                     name,

@@ -1,29 +1,80 @@
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Box, List, ListItem, Menu, MenuItem, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    List,
+    ListItem,
+    Menu,
+    MenuItem,
+    Modal,
+    Stack,
+    Typography,
+} from "@mui/material";
 import Container from "@mui/material/Container";
 import Fade from "@mui/material/Fade";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import React from "react";
+import React, { useState } from "react";
 import { TaskDTO } from "../../pages/dashboard";
+import { api } from "../../utils/apí";
 import { BtnAddTask } from "../BtnAddTask";
 
 type Props = {
     listTasks: TaskDTO[];
     setListTasks: any;
-    getDays:any;
-    day:TaskDTO;
+    getDays: any;
+    day: TaskDTO;
 };
 
+const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    p: 4,
+};
 
-export const Tasks = ({ listTasks, setListTasks,getDays,day }: Props) => {
+export const Tasks = ({ listTasks, setListTasks, getDays, day }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const [openDelete, setOpenDelete] = useState(false);
+    const handleOpenDelete = () => setOpenDelete(true);
+    const handleCloseDelete = () => setOpenDelete(false);
+
+    const [idTasks, setIdTasks] = useState({
+        id: "rffdgfgf",
+        name: "teste",
+    });
+
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const selectDelete = (id: string, name: string) => {
+        try {
+            setIdTasks({
+                id,
+                name,
+            });
+            if (idTasks.id != "rffdgfgf") {
+                handleOpenDelete();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deleteTasks = async () => {
+        console.log(1234);
+        const data = await api.delete(`/task/delete/${idTasks.id}`);
+        getDays();
+        handleCloseDelete()
     };
 
     return (
@@ -91,7 +142,12 @@ export const Tasks = ({ listTasks, setListTasks,getDays,day }: Props) => {
                                                         Editar
                                                     </MenuItem>
                                                     <MenuItem
-                                                        onClick={handleClose}
+                                                        onClick={() =>
+                                                            selectDelete(
+                                                                index.id,
+                                                                index.name
+                                                            )
+                                                        }
                                                     >
                                                         Excluir
                                                     </MenuItem>
@@ -150,10 +206,42 @@ export const Tasks = ({ listTasks, setListTasks,getDays,day }: Props) => {
                         })}
                     </Grid>
                 </Container>
-                <BtnAddTask getDays={getDays} 
-                day={day}
-                />
+                <BtnAddTask getDays={getDays} day={day} />
             </Box>
+
+            <Modal
+                open={openDelete}
+                onClose={handleCloseDelete}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    <Typography variant="h6" gutterBottom>
+                        Deseja exlcuir a seguinte atividade:
+                        <strong>{idTasks.name}</strong>
+                    </Typography>
+                    <Box
+                    sx={{
+                        marginTop:"8%"
+                    }}
+                    >
+                    <Stack direction="row" spacing={5}>
+                        <Button color="info"
+                        fullWidth
+                        onClick={()=>handleCloseDelete}
+                         variant="contained">
+                            Cancelar
+                        </Button>
+                        <Button color="warning"
+                        fullWidth
+                        onClick={()=>deleteTasks()}
+                         variant="contained">
+                            Excluir
+                        </Button>
+                    </Stack>
+                    </Box>
+                </Box>
+            </Modal>
         </>
     );
 };
